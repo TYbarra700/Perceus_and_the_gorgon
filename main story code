@@ -1,0 +1,125 @@
+#include <Servo.h>
+
+Servo spin;
+Servo head;
+Servo medusa;
+
+const int athenaSword = ;
+const int athenaShield = ;
+const int athenaForward = ;
+const int swordLight = ;
+const int shieldLight = ;
+const int forwardLight = ;
+
+const int swordStart = ;
+const int swordChop = ;
+const int shieldStart = ;
+const int forward = ;
+
+bool playing, sceneOne, sceneTwo, turnt, chopped;
+
+void setup() {
+  
+  spin.attach();
+  spin.write(0);
+  head.attach();
+  head.write();
+  medusa.attach();
+  medusa.write();
+
+  pinMode(athenaSword, OUTPUT);
+  digitalWrite(athenaSword,LOW);
+  pinMode(athenaShield, OUTPUT);
+  digitalWrite(athenaShield,LOW);
+  pinMode(swordLight, OUTPUT);
+  digitalWrite(swordLight,LOW);
+  pinMode(shieldLight, OUTPUT);
+  digitalWrite(shieldLight,LOW);
+  pinMode(forwardLight, OUTPUT);
+  digitalWrite(forwardLight,LOW);
+
+  pinMode(swordStart, INPUT);
+  pinMode(swordChop, INPUT);
+  pinMode(shieldStart, INPUT);
+  pinMode(forward, INPUT);
+
+  playing = false;
+  sceneOne = true;
+  sceneTwo = false;
+  turnt = false;
+
+}
+
+void loop() {
+  if playing() {
+    if sceneOne() {
+      if (digitalRead(swordStart) == HIGH){
+        digitalWrite(athenaSword, HIGH);
+        digitalWrite(swordLight, LOW);
+      } else {
+        digitalWrite(athenaSword, LOW);
+        digitalWrite(swordLight, HIGH);
+      }
+
+      if (digitalRead(shieldStart) == HIGH){
+        digitalWrite(athenaShield, HIGH);
+        digitalWrite(shieldLight, LOW);
+      } else {
+        digitalWrite(athenaShield, LOW);
+        digitalWrite(shieldLight, HIGH);
+      }
+
+        if (digitalRead(swordStart) == LOW && digitalRead(shieldStart) == LOW) {
+          if (digitalRead(forward) == HIGH) {
+            if (turnt == false) {
+              digitalWrite(forwardLight, HIGH);
+              for(int turn = 0; turn < 180; turn+=1) {
+                spin.write(turn);
+                delay(10);
+              }
+            serv1.write(180);
+            turnt = true;
+            }    
+          } else {
+            if(turnt = false) {
+              digitalWrite(forwardLight, HIGH);
+              spin.write(0);
+            } else {
+              spin.write(180)
+              digitalWrite(forwardLight, LOW);
+              digitalWrite(swordLight, LOW);
+              digitalWrite(shieldLight, LOW);
+              sceneOne = false;
+              sceneTwo = true;
+            }
+        }
+    }
+
+    if sceneTwo() {
+      if turnt() {
+        if (chopped = false) {
+          for(int move = 0; move < 180; move+=1) {
+            medusa.write(move);
+            if (digitalRead(swordChop) == HIGH) {
+              move = 180;
+              chopped = true;
+            } else {
+              delay(10);
+            }
+          }
+        } else {
+          head.write(180);
+          sceneTwo = false;
+        }
+      } 
+    }
+
+    if (sceneOne = false && sceneTwo = false){
+      playing = false;
+    }
+  } else {
+    spin.write(0);
+    head.write(0);
+    medusa.write(0);
+  }
+}
