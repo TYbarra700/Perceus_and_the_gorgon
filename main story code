@@ -42,8 +42,8 @@ void setup() {
 }
 
 void loop() {
-  if (playing = true) {
-    if (sceneOne = true) {
+  if (playing == true) {
+    if (sceneOne == true) {
       if (digitalRead(swordStart) == HIGH){
         digitalWrite(swordLight, LOW);
       } else {
@@ -58,17 +58,15 @@ void loop() {
 
         if ((digitalRead(swordStart) == LOW) && (digitalRead(shieldStart) == LOW)) {
           if (digitalRead(forward) == HIGH) {
-            if (turnt == false) {
               digitalWrite(forwardLight, HIGH);
+              turnt = true; 
               for(int turn = 0; turn < 180; turn+=1) {
                 spin.write(turn);
                 delay(10);
-              }
-            spin.write(180);
-            turnt = true;
-            }    
-          } else {
-            if(turnt = false) {
+              }   
+          }
+          if (digitalRead(forward) == LOW) {
+            if(turnt == false) {
               digitalWrite(forwardLight, HIGH);
               spin.write(0);
             } else {
@@ -83,33 +81,25 @@ void loop() {
         }
     }
 
-    if (sceneTwo = true) {
-      if (turnt = true) {
-        if (chopped = false) {
+    if (sceneTwo == true) {
+      if (turnt == true) {
+        if (chopped == false) {
           for(int move = 0; move < 180; move+=1) {
             medusa.write(move);
-            if (move = 180) {
-              for (int reverse = 180; reverse < 0; reverse-=1){
-                medusa.write(reverse);
-              }
             }
-            if (digitalRead(swordChop) == HIGH) {
-              move = 180;
+          if (digitalRead(swordChop) == HIGH) {
               chopped = true;
-            } else {
-              delay(10);
             }
-          }
         } else {
-          //head.write(180);
+          head.write(170);
           sceneTwo = false;
         }
       } 
     }
 
-    if ((sceneOne = false) && (sceneTwo = false)){
+    if ((sceneOne == false) && (sceneTwo == false)){
       playing = false;
     }
-  }  
+  }
+}  
 
-}
